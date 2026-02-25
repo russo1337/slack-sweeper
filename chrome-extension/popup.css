@@ -1,0 +1,91 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 12px;
+  width: 360px;
+  color: #1d1c1d;
+  background: #f8f6f3;
+}
+
+header .logo {
+  display: block;
+  width: 260px;
+  height: auto;
+  margin: 0 0 8px 0;
+}
+
+header h1 {
+  font-size: 16px;
+  margin: 0 0 4px 0;
+}
+
+header p {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  color: #6a5e5e;
+}
+
+.warning {
+  color: #b15e00;
+  font-weight: 600;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+input[type="file"] {
+  width: 100%;
+}
+
+.actions {
+  margin: 12px 0;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  border: 0;
+  border-radius: 6px;
+  background: #2a9d8f;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:disabled {
+  background: #a8b7b4;
+  cursor: not-allowed;
+}
+
+.status {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.log {
+  background: #ffffff;
+  border: 1px solid #e0d9d2;
+  padding: 8px;
+  height: 160px;
+  overflow: auto;
+  font-size: 11px;
+  white-space: pre-wrap;
+}
+
+.footer {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.footer a {
+  color: #2a9d8f;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}

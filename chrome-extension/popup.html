@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Slack Sweeper</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <img class="logo" src="logo.png" alt="Slack Sweeper logo" />
+      <h1>Slack Sweeper</h1>
+      <p>Uses your current Slack admin session. Open the admin page, then upload a CSV with one user ID per line.</p>
+      <p>Tip: download the full user list CSV, filter it, keep only the user ID column, and upload that file here.</p>
+      <p class="warning">Keep this popup open while it runs, otherwise the process stops.</p>
+    </header>
+
+    <section>
+      <label for="csvFile">CSV file (one user ID per line)</label>
+      <input id="csvFile" type="file" accept=".csv,text/csv" />
+    </section>
+
+    <section class="actions">
+      <button id="runBtn">Deactivate Users</button>
+    </section>
+
+    <section>
+      <div id="status" class="status">Waiting for CSV…</div>
+      <pre id="log" class="log"></pre>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Source code available on
+        <a href="https://github.com/russo1337/slack-sweeper" target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>.
+        Feel free to contribute or report issues!
+      </p>
+    </footer>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
