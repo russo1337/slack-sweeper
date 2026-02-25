@@ -38,4 +38,5 @@ Best way to get the CSV:
 
 ## Project Structure
 - `chrome-extension/`: Chrome extension source
+- `slack-sweeper.zip`: packaged extension ZIP (for upload/distribution)
 - `ressources/logo-full.png`: project logo used in this README
