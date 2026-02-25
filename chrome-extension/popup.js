@@ -26,6 +26,9 @@ async function getSessionData() {
   if (!url.hostname.endsWith(".slack.com")) {
     throw new Error("Open the Slack admin page in the active tab.");
   }
+  if (!/^\/admin(\/|$)/.test(url.pathname)) {
+    throw new Error("Open a Slack admin page (URL path starting with /admin) in the active tab.");
+  }
 
   const results = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
@@ -61,23 +64,6 @@ async function getSessionData() {
         }
       }
 
-      if (!token || !teamId) {
-        const html = document.documentElement.innerHTML;
-        if (!token) {
-          const tokenMatch =
-            html.match(/"api_token":"(xox[^"]+)"/) ||
-            html.match(/"token":"(xox[^"]+)"/) ||
-            html.match(/(xoxc-[A-Za-z0-9-]+)/);
-          token = tokenMatch ? tokenMatch[1] : token;
-        }
-        if (!teamId) {
-          const teamMatch =
-            html.match(/"team_id":"(T[0-9A-Z]+)"/) ||
-            html.match(/"teamId":"(T[0-9A-Z]+)"/);
-          teamId = teamMatch ? teamMatch[1] : teamId;
-        }
-      }
-
       return {
         token,
         teamId,
@@ -110,6 +96,22 @@ function parseCsv(text) {
     }
   }
   return ids;
+}
+
+function validateUserIds(ids) {
+  const invalid = ids.filter((id) => !/^[UW][A-Z0-9]+$/i.test(id));
+  if (invalid.length) {
+    const sample = invalid.slice(0, 5).join(", ");
+    throw new Error(
+      `Invalid Slack user ID(s) in CSV (must start with U or W): ${sample}${invalid.length > 5 ? "..." : ""}`
+    );
+  }
+}
+
+function confirmDeactivation(hostname, count) {
+  return window.confirm(
+    `Deactivate ${count} user${count === 1 ? "" : "s"} in ${hostname}?\n\nThis action is destructive and cannot be undone from this extension.`
+  );
 }
 
 async function deactivateUser(session, userId) {
@@ -149,9 +151,15 @@ runBtn.addEventListener("click", async () => {
     if (!ids.length) {
       throw new Error("No user IDs found in the CSV.");
     }
+    validateUserIds(ids);
 
     setStatus("Reading Slack session…");
     const session = await getSessionData();
+
+    setStatus("Waiting for confirmation…");
+    if (!confirmDeactivation(session.hostname, ids.length)) {
+      throw new Error("Operation cancelled.");
+    }
 
     setStatus(`Deactivating ${ids.length} users…`);
     let success = 0;
